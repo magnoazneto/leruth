@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/card_ball.gd" type="Script" id=1]
+[ext_resource path="res://sprites/fire_light2.png" type="Texture" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 16.0
+
+[node name="card_ball" type="Area2D"]
+scale = Vector2( 1.5, 1.5 )
+collision_layer = 3
+collision_mask = 3
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+scale = Vector2( 0.8, 0.8 )
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 0.1, 0.1 )
+texture = ExtResource( 2 )
+
+[node name="Tween" type="Tween" parent="."]
+[connection signal="area_shape_entered" from="." to="." method="_on_card_ball_area_shape_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_card_ball_mouse_exited"]
+[connection signal="tween_all_completed" from="Tween" to="." method="_on_Tween_tween_all_completed"]

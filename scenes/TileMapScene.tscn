@@ -8,7 +8,6 @@ extents = Vector2( 8, 8 )
 [node name="Node2D" type="Node2D"]
 
 [node name="Sprite" type="Sprite" parent="."]
-editor/display_folded = true
 texture = ExtResource( 1 )
 centered = false
 region_enabled = true
@@ -19,6 +18,8 @@ __meta__ = {
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite"]
 show_behind_parent = true
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite/StaticBody2D"]
 show_behind_parent = true
@@ -26,7 +27,6 @@ position = Vector2( 8, 8 )
 shape = SubResource( 1 )
 
 [node name="Sprite2" type="Sprite" parent="."]
-editor/display_folded = true
 position = Vector2( 16, 0 )
 texture = ExtResource( 1 )
 centered = false
@@ -38,6 +38,8 @@ __meta__ = {
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite2"]
 show_behind_parent = true
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2/StaticBody2D"]
 show_behind_parent = true
@@ -45,7 +47,6 @@ position = Vector2( 8, 8 )
 shape = SubResource( 1 )
 
 [node name="Sprite3" type="Sprite" parent="."]
-editor/display_folded = true
 position = Vector2( 32, 0 )
 texture = ExtResource( 1 )
 centered = false
@@ -57,6 +58,8 @@ __meta__ = {
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite3"]
 show_behind_parent = true
+collision_layer = 2
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite3/StaticBody2D"]
 show_behind_parent = true
@@ -133,6 +136,7 @@ __meta__ = {
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite7"]
 show_behind_parent = true
+collision_layer = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite7/StaticBody2D"]
 show_behind_parent = true
@@ -152,6 +156,7 @@ __meta__ = {
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite8"]
 show_behind_parent = true
+collision_layer = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite8/StaticBody2D"]
 show_behind_parent = true
@@ -171,6 +176,7 @@ __meta__ = {
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite9"]
 show_behind_parent = true
+collision_layer = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite9/StaticBody2D"]
 show_behind_parent = true
@@ -190,6 +196,7 @@ __meta__ = {
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite10"]
 show_behind_parent = true
+collision_layer = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite10/StaticBody2D"]
 show_behind_parent = true
@@ -208,7 +215,9 @@ __meta__ = {
 }
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Sprite11"]
+editor/display_folded = true
 show_behind_parent = true
+collision_layer = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite11/StaticBody2D"]
 show_behind_parent = true

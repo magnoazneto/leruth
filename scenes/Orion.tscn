@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/Orion.gd" type="Script" id=1]
 [ext_resource path="res://sprites/player/TopDownCharacter/Character/Character_Left.png" type="Texture" id=2]
+[ext_resource path="res://sprites/fire_light2.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
@@ -32,20 +33,18 @@ animations = [ {
 } ]
 
 [node name="Orion" type="KinematicBody2D"]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_group_": true
-}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 32, 34 )
-scale = Vector2( 1, 1.2 )
+position = Vector2( 0, 4 )
 shape = SubResource( 1 )
 
 [node name="walkSprite" type="Sprite" parent="."]
+editor/display_folded = true
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
-centered = false
 hframes = 4
 frame = 1
 region_rect = Rect2( 32, 0, 32, 32 )
@@ -55,8 +54,10 @@ anims/walk = SubResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+zoom = Vector2( 0.5, 0.5 )
 smoothing_enabled = true
 smoothing_speed = 6.0
+editor_draw_drag_margin = true
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 visible = false
@@ -64,3 +65,8 @@ frames = SubResource( 3 )
 __meta__ = {
 "_edit_ik_": true
 }
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="Light2D" type="Light2D" parent="."]
+texture = ExtResource( 3 )
