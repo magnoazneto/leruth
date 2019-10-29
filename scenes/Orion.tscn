@@ -68,5 +68,37 @@ __meta__ = {
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
+[node name="wave_counter" type="RichTextLabel" parent="HUD"]
+margin_right = 200.0
+margin_bottom = 100.0
+rect_scale = Vector2( 1.5, 1.5 )
+bbcode_enabled = true
+bbcode_text = "wave: 1/15"
+visible_characters = 100
+text = "wave: 1/15"
+
+[node name="magic_counter" type="RichTextLabel" parent="HUD"]
+margin_left = 500.0
+margin_right = 600.0
+margin_bottom = 100.0
+rect_scale = Vector2( 1.5, 1.5 )
+visible_characters = 10
+text = "magic:"
+
+[node name="life_counter" type="RichTextLabel" parent="HUD"]
+margin_top = 100.0
+margin_right = 40.0
+margin_bottom = 140.0
+rect_scale = Vector2( 1.5, 1.5 )
+visible_characters = 20
+
 [node name="Light2D" type="Light2D" parent="."]
 texture = ExtResource( 3 )
+texture_scale = 0.5
+energy = 0.8
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="chargeTimer" type="Timer" parent="."]
+wait_time = 5.0
+[connection signal="timeout" from="chargeTimer" to="." method="_on_chargeTimer_timeout"]

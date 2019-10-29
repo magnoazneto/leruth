@@ -25,6 +25,11 @@ scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 2 )
 
 [node name="auto_destruct" type="Timer" parent="."]
-wait_time = 0.5
+
+[node name="Light2D" type="Light2D" parent="."]
+texture = ExtResource( 2 )
+energy = 0.5
+
+[node name="Tween" type="Tween" parent="."]
 [connection signal="body_entered" from="." to="." method="_on_shoot_area_body_entered"]
 [connection signal="timeout" from="auto_destruct" to="." method="_on_auto_destruct_timeout"]
