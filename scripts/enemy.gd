@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
-const SPEED = 100
+const SPEED = 200
+const RAGE_MODIFIER = 0.06
 onready var player = get_parent().get_node("Orion")
 onready var stage = get_parent()
 onready var line = stage.get_node("Line2D")
@@ -65,25 +66,25 @@ func _seek_player():
 	motion.x = direction_x * SPEED
 	motion.y = direction_y * SPEED
 	if R_sonar.is_colliding():
-		rage += 0.03
+		rage += RAGE_MODIFIER
 		if rage >= 5:
 			tile_target = map.world_to_map(global_position)
 			tile_target.x += 1
 			explode_cells("right")
 	if U_sonar.is_colliding():
-		rage += 0.03
+		rage += RAGE_MODIFIER
 		if rage >= 5:
 			tile_target = map.world_to_map(global_position)
 			tile_target.y -= 1
 			explode_cells("up")
 	if D_sonar.is_colliding():
-		rage += 0.03
+		rage += RAGE_MODIFIER
 		if rage >= 5:
 			tile_target = map.world_to_map(global_position)
 			tile_target.y += 1
 			explode_cells("down")
 	if L_sonar.is_colliding():
-		rage += 0.03
+		rage += RAGE_MODIFIER
 		if rage >= 5:
 			tile_target = map.world_to_map(global_position)
 			tile_target.x -= 1
