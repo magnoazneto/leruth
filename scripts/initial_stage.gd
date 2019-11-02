@@ -15,19 +15,11 @@ onready var summon_magic = true
 func _ready():
 	generate_stage()
 	print(len($nav2D/TileMap.get_used_cells()))
+	$day_tween.interpolate_property($dayligth, "color", Color(1,1,1,1), Color(0.05, 0.05, 0.2, 1), 7, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	$day_tween.start()
 
 
-func _physics_process(delta):
-	if Input.is_action_just_pressed("ui_pick"):
-		var tile_pos = walls.world_to_map(get_global_mouse_position())
-		print(tile_pos)
-		if walls.get_cellv(tile_pos) == -1:
-			walls.set_cellv(tile_pos, 0)
-			walls.update_dirty_quadrants()
-		else:
-			walls.set_cellv(tile_pos, -1)
-		walls.update_bitmask_area(tile_pos)
-		
+func _physics_process(delta):		
 	if wave_enemys == 20 and living_enemys == 0:
 		get_tree().reload_current_scene()
 	if wave_enemys < 20 and summon_enabled:

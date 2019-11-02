@@ -39,6 +39,7 @@ script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 4 )
+scale = Vector2( 0.8, 0.9 )
 shape = SubResource( 1 )
 
 [node name="walkSprite" type="Sprite" parent="."]
@@ -55,6 +56,10 @@ anims/walk = SubResource( 2 )
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 zoom = Vector2( 0.5, 0.5 )
+limit_left = -220
+limit_top = -256
+limit_right = 1070
+limit_bottom = 550
 smoothing_enabled = true
 smoothing_speed = 6.0
 editor_draw_drag_margin = true
@@ -67,6 +72,7 @@ __meta__ = {
 }
 
 [node name="HUD" type="CanvasLayer" parent="."]
+editor/display_folded = true
 
 [node name="wave_counter" type="RichTextLabel" parent="HUD"]
 margin_right = 200.0
@@ -101,4 +107,8 @@ energy = 0.8
 
 [node name="chargeTimer" type="Timer" parent="."]
 wait_time = 5.0
+
+[node name="magicTimer" type="Timer" parent="."]
+wait_time = 5.0
 [connection signal="timeout" from="chargeTimer" to="." method="_on_chargeTimer_timeout"]
+[connection signal="timeout" from="magicTimer" to="." method="_on_magicTimer_timeout"]

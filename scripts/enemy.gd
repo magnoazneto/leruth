@@ -1,16 +1,16 @@
 extends KinematicBody2D
 
 const SPEED = 200
-const RAGE_MODIFIER = 0.06
-onready var player = get_parent().get_node("Orion")
-onready var stage = get_parent()
-onready var line = stage.get_node("Line2D")
-onready var map = stage.get_node("nav2D/TileMap")
+const RAGE_MODIFIER = 0.03
 var direction_x = 1
 var direction_y = 1
 var motion = Vector2()
 var path : = PoolVector2Array()
 var seeking = false
+onready var player = get_parent().get_node("Orion")
+onready var stage = get_parent()
+onready var line = stage.get_node("Line2D")
+onready var map = stage.get_node("nav2D/TileMap")
 onready var rage = 0
 onready var R_sonar = $sonar_right
 onready var L_sonar = $sonar_left
@@ -40,10 +40,18 @@ func _physics_process(delta):
 		#$Tween.start()
 	#elif position.distance_to(player.position) < 100:
 		}
-	_set_dir()
-	_seek_player()
+	if player.using_magic:
+		_set_dir()
+		_seek_player()
+	else:
+		_normal_move()
+	
 	if position.distance_to(player.position) <= 50:
-		player.life -= 1
+		player.life -= 1.5
+
+
+func _normal_move():
+	move_and_slide(Vector2(0,0), Vector2(0,0))
 
 
 func move_along_path(distance: float):
@@ -91,39 +99,48 @@ func _seek_player():
 			explode_cells("left")
 	
 	move_and_slide(motion, Vector2(0, 0))
-		
+
 
 func explode_cells(wall_dir):
 	if wall_dir == "right":
-		map.set_cell(tile_target.x, tile_target.y, -1)
-		map.set_cell(tile_target.x, tile_target.y+1, -1)
-		map.set_cell(tile_target.x, tile_target.y-1, -1)
-		map.set_cell(tile_target.x+1, tile_target.y, -1)
-		map.set_cell(tile_target.x+1, tile_target.y+1, -1)
-		map.set_cell(tile_target.x+1, tile_target.y-1, -1)
+		for i in range(2):
+			for j in range(-1, 2):
+				map.set_cell(tile_target.x+i, tile_target.y+j, -1)
+		
+		map.update_bitmask_area(Vector2(tile_target.x, tile_target.y+2))
+		map.update_bitmask_area(Vector2(tile_target.x, tile_target.y-2))
+		map.update_bitmask_area(Vector2(tile_target.x+2, tile_target.y))
+
 	elif wall_dir == "up":
-		map.set_cell(tile_target.x, tile_target.y, -1)
-		map.set_cell(tile_target.x, tile_target.y-1, -1)
-		map.set_cell(tile_target.x+1, tile_target.y, -1)
-		map.set_cell(tile_target.x+1, tile_target.y-1, -1)
-		map.set_cell(tile_target.x-1, tile_target.y, -1)
-		map.set_cell(tile_target.x-1, tile_target.y-1, -1)
+		for i in range(-1, 2):
+			for j in range(-2, 0):
+				map.set_cell(tile_target.x+i, tile_target.y+j, -1)
+		
+		map.update_bitmask_area(Vector2(tile_target.x-2, tile_target.y))
+		map.update_bitmask_area(Vector2(tile_target.x+2, tile_target.y))
+		map.update_bitmask_area(Vector2(tile_target.x, tile_target.y-3))
+
 	elif wall_dir == "down":
-		map.set_cell(tile_target.x, tile_target.y, -1)
-		map.set_cell(tile_target.x, tile_target.y+1, -1)
-		map.set_cell(tile_target.x+1, tile_target.y, -1)
-		map.set_cell(tile_target.x+1, tile_target.y+1, -1)
-		map.set_cell(tile_target.x-1, tile_target.y, -1)
-		map.set_cell(tile_target.x-1, tile_target.y+1, -1)
+		for i in range(-1, 2):
+			for j in range(0, 2):
+				map.set_cell(tile_target.x+i, tile_target.y+j, -1)
+		
+		map.update_bitmask_area(Vector2(tile_target.x-2, tile_target.y))
+		map.update_bitmask_area(Vector2(tile_target.x+2, tile_target.y))
+		map.update_bitmask_area(Vector2(tile_target.x, tile_target.y-3))
+
 	elif wall_dir == "left":
-		map.set_cell(tile_target.x, tile_target.y, -1)
-		map.set_cell(tile_target.x, tile_target.y+1, -1)
-		map.set_cell(tile_target.x, tile_target.y-1, -1)
-		map.set_cell(tile_target.x-1, tile_target.y, -1)
-		map.set_cell(tile_target.x-1, tile_target.y+1, -1)
-		map.set_cell(tile_target.x-1, tile_target.y-1, -1)
-	rage = 0
+		for i in range(-2, 0):
+			for j in range(-1, 2):
+				map.set_cell(tile_target.x+i, tile_target.y+j, -1)
+		
+		map.update_bitmask_area(Vector2(tile_target.x, tile_target.y+2))
+		map.update_bitmask_area(Vector2(tile_target.x, tile_target.y-2))
+		map.update_bitmask_area(Vector2(tile_target.x-2, tile_target.y))
 	
+	rage = 0
+
+
 func _set_dir():
 	if player.position.x < position.x:
 		direction_x = -1

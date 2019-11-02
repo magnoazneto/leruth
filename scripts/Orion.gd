@@ -11,7 +11,9 @@ var charging = false
 var life = 1000
 
 onready var stage = get_parent()
-
+onready var walls = get_parent().get_node("nav2D/TileMap")
+onready var stardust = get_parent().get_node("stardust")
+onready var using_magic = false
 
 func _ready():
 	pass
@@ -34,28 +36,34 @@ func controls_loop():
 	var RIGHT = Input.is_action_pressed("ui_d")
 	var UP = Input.is_action_pressed("ui_w")
 	var DOWN = Input.is_action_pressed("ui_s")
+
+	movedir.x = -int(LEFT) + int(RIGHT)
+	movedir.y = -int(UP) + int(DOWN)
+	
 	if Input.is_action_just_pressed("ui_shoot") and magic > 0:
 		_shoot()
 	if Input.is_action_just_pressed("ui_pick"):
-		_fusion()
-	
-	movedir.x = -int(LEFT) + int(RIGHT)
-	movedir.y = -int(UP) + int(DOWN)
+		_interact()
 
+
+func _interact():
+	var aim = get_global_mouse_position()
+	var tile_pos = walls.world_to_map(aim)
+	if walls.get_cellv(tile_pos) == -1:
+		walls.set_cellv(tile_pos, 0)
+		walls.update_dirty_quadrants()
+	else:
+		walls.set_cellv(tile_pos, -1)
+	walls.update_bitmask_area(tile_pos)
+	stardust.global_position = aim
+	stardust.emitting = true
+	using_magic = true
+	$magicTimer.start()
 
 func refresh_hud():
 	$HUD/wave_counter.set_bbcode("Summoned: " + str(stage.wave_enemys) + " Alive: " + str(stage.living_enemys))
 	$HUD/magic_counter.set_bbcode("Magic: " + str(magic))
 	$HUD/life_counter.set_bbcode("Life: " + str(life))
-	
-	
-func _fusion():
-	"""
-	var aim = AIM.instance()
-	$HUD.add_child(aim)
-	aim.global_position = get_global_mouse_position()
-	"""
-	pass
 
 
 func _shoot():
@@ -65,6 +73,8 @@ func _shoot():
 	stage.add_child(shoot_ball)
 	$Tween.interpolate_property(shoot_ball, "global_position", global_position, target, 0.2, Tween.TRANS_SINE, Tween.EASE_OUT)
 	$Tween.start()
+	using_magic = true
+	$magicTimer.start()
 	
 	
 func movement_loop():
@@ -96,4 +106,7 @@ func animation_loop():
 func _on_chargeTimer_timeout():
 	magic += 1
 	charging = false
-	
+
+
+func _on_magicTimer_timeout():
+	using_magic = false
